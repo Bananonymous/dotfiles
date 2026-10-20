@@ -11,7 +11,7 @@ Made for a fresh **EndeavourOS** install.
 4. Run:
 
    ```bash
-   git clone https://github.com/<you>/dotfiles ~/dotfiles
+   git clone https://github.com/Bananonymous/dotfiles ~/dotfiles
    cd ~/dotfiles && ./install.sh
    ```
 
