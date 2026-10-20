@@ -1,0 +1,9 @@
+#!/bin/bash
+# Runs a command once Quickshell owns org.freedesktop.Notifications (max 10 s).
+# Browsers/Electron apps check for a notification daemon only at startup; if it's
+# missing they fall back to their own popup windows, which Hyprland tiles full size.
+for _ in $(seq 100); do
+    busctl --user status org.freedesktop.Notifications >/dev/null 2>&1 && break
+    sleep 0.1
+done
+exec "$@"

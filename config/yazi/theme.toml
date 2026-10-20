@@ -1,0 +1,13 @@
+[flavor]
+use = "catppuccin-mocha-blue"
+
+[status]
+overall = { fg = "#cdd6f4", bg = "#1e1e2e" }
+
+[mode]
+normal_main = { fg = "#1e1e2e", bg = "#89b4fa", bold = true }
+normal_alt  = { fg = "#cdd6f4", bg = "#45475a" }
+select_main = { fg = "#1e1e2e", bg = "#a6e3a1", bold = true }
+select_alt  = { fg = "#cdd6f4", bg = "#45475a" }
+unset_main  = { fg = "#1e1e2e", bg = "#f2cdcd", bold = true }
+unset_alt   = { fg = "#cdd6f4", bg = "#45475a" }

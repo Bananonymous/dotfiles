@@ -1,0 +1,13 @@
+configuration {
+    modes: "drun,run";
+    show-icons: true;
+    icon-theme: "breeze-dark";
+    font: "Hack Nerd Font 12";
+    terminal: "kitty";
+    display-drun: "󰀻";
+    display-run: "󰅂";
+    drun-display-format: "{name}";
+    drun-match-fields: "name,generic,exec,keywords";
+}
+
+@theme "~/.config/rofi/matugen.rasi"

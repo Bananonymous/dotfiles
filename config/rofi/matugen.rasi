@@ -1,0 +1,81 @@
+/* Layout from catppuccin-mocha.rasi, colors from matugen (colors.rasi) */
+@import "colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @text;
+}
+
+window {
+    background-color: @base;
+    border:           1px;
+    border-color:     @surface0;
+    border-radius:    12px;
+    width:            640px;
+    padding:          14px;
+    location:         center;
+}
+
+mainbox {
+    spacing:  10px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @mantle;
+    border-radius:    8px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder:       "Search…";
+    placeholder-color: @overlay0;
+    cursor:            text;
+}
+
+listview {
+    lines:        8;
+    fixed-height: false;
+    scrollbar:    false;
+    spacing:      4px;
+}
+
+element {
+    padding:       8px 10px;
+    spacing:       12px;
+    border-radius: 8px;
+    cursor:        pointer;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @on-accent;
+}
+
+element normal.urgent,
+element selected.urgent {
+    background-color: @red;
+    text-color:       @on-red;
+}
+
+element-icon {
+    size:   24px;
+    cursor: inherit;
+}
+
+element-text {
+    vertical-align: 0.5;
+    cursor:         inherit;
+    text-color:     inherit;
+}

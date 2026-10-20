@@ -1,0 +1,20 @@
+#!/bin/bash
+# Random wallpaper from ~/Pictures/wallpapers on every screen, every 10 minutes,
+# and matugen recolors the shell, Hyprland, kitty, rofi and hyprlock from it.
+# The bar's wallpaper button skips ahead by waking the sleep below.
+DIR=$HOME/Pictures/wallpapers
+INTERVAL=600
+
+awww query >/dev/null 2>&1 || { awww-daemon & sleep 2; }
+mkdir -p "$HOME/.cache/awww"
+
+while true; do
+    mapfile -d '' pics < <(find -L "$DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) -print0)
+    if (( ${#pics[@]} )); then
+        pic=${pics[RANDOM % ${#pics[@]}]}
+        awww img "$pic" --transition-type wipe --transition-angle 30 --transition-step 120 --transition-fps 60
+        cp "$pic" "$HOME/.cache/awww/current_wallpaper.png"
+        matugen image "$pic" -m dark --source-color-index 0 -q
+    fi
+    sleep "$INTERVAL"
+done

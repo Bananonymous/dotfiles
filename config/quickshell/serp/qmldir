@@ -1,0 +1,15 @@
+singleton ThemeBackend 1.0 shims/ThemeBackend.qml
+singleton Scaler 1.0 shims/Scaler.qml
+singleton I18n 1.0 shims/I18n.qml
+singleton Sounds 1.0 shims/Sounds.qml
+singleton Caching 1.0 shims/Caching.qml
+singleton Config 1.0 shims/Config.qml
+singleton Audio 1.0 shims/Audio.qml
+singleton DateTime 1.0 shims/DateTime.qml
+singleton Lyrics 1.0 singletons/audio/Lyrics.qml
+singleton Weather 1.0 shims/Weather.qml
+singleton Cava 1.0 singletons/audio/Cava.qml
+singleton MprisController 1.0 singletons/audio/MprisController.qml
+
+MusicPopup 1.0 media/MusicPopup.qml
+CalendarPopup 1.0 calendar/CalendarPopup.qml

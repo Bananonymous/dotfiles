@@ -1,0 +1,29 @@
+[[mgr.prepend_keymap]]
+on   = "j"
+run  = "plugin sorted-nav down"
+desc = "Move down (hidden-last order)"
+
+[[mgr.prepend_keymap]]
+on   = "k"
+run  = "plugin sorted-nav up"
+desc = "Move up (hidden-last order)"
+
+[[mgr.prepend_keymap]]
+on   = "<Down>"
+run  = "plugin sorted-nav down"
+desc = "Move down (hidden-last order)"
+
+[[mgr.prepend_keymap]]
+on   = "<Up>"
+run  = "plugin sorted-nav up"
+desc = "Move up (hidden-last order)"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "g"]
+run  = "plugin sorted-nav first"
+desc = "Go to first file (hidden-last order)"
+
+[[mgr.prepend_keymap]]
+on   = "G"
+run  = "plugin sorted-nav last"
+desc = "Go to last file (hidden-last order)"

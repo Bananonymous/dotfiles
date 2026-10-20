@@ -1,0 +1,12 @@
+ClickButton 1.0 buttons/ClickButton.qml
+IconButton 1.0 buttons/IconButton.qml
+MarqueeText 1.0 display/MarqueeText.qml
+Visualizer 1.0 media/Visualizer.qml
+Switch 1.0 inputs/Switch.qml
+Dropdown 1.0 inputs/Dropdown.qml
+WavySeekBar 1.0 media/WavySeekBar.qml
+LyricsView 1.0 media/LyricsView.qml
+LyricsPicker 1.0 inputs/LyricsPicker.qml
+FilePicker 1.0 inputs/FilePicker.qml
+Input 1.0 inputs/Input.qml
+Toggle 1.0 inputs/Toggle.qml

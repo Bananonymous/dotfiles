@@ -1,0 +1,35 @@
+# Material You palette from the current wallpaper, rendered into every themed app.
+# Run by ~/.config/hypr/scripts/random-wallpaper on each rotation.
+
+[config.custom_colors]
+# Fixed accent hues, harmonized toward the wallpaper's source color
+red     = { color = "#f38ba8", blend = true }
+orange  = { color = "#fab387", blend = true }
+yellow  = { color = "#f9e2af", blend = true }
+green   = { color = "#a6e3a1", blend = true }
+cyan    = { color = "#94e2d5", blend = true }
+blue    = { color = "#89b4fa", blend = true }
+magenta = { color = "#cba6f7", blend = true }
+
+# Quickshell watches this file and animates to the new colors
+[templates.quickshell]
+input_path  = "~/.config/matugen/templates/quickshell.json"
+output_path = "~/.config/quickshell/colors.json"
+
+[templates.kitty]
+input_path  = "~/.config/matugen/templates/kitty.conf"
+output_path = "~/.config/kitty/colors.conf"
+post_hook   = "pkill -USR1 -x kitty || true"
+
+[templates.rofi]
+input_path  = "~/.config/matugen/templates/rofi.rasi"
+output_path = "~/.config/rofi/colors.rasi"
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/templates/hyprland.lua"
+output_path = "~/.config/hypr/colors.lua"
+post_hook   = "hyprctl eval \"$(cat ~/.config/hypr/colors.lua)\" >/dev/null 2>&1 || true"
+
+[templates.hyprlock]
+input_path  = "~/.config/matugen/templates/hyprlock.conf"
+output_path = "~/.config/hypr/hyprlock-colors.conf"
