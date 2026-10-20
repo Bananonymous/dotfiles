@@ -16,12 +16,57 @@ ask()  { local a; read -rp "$(printf '\e[1;36m  ? \e[0m%s [Y/n] ' "$1")" a; [[ $
 command -v pacman >/dev/null || { echo "This is for Arch / EndeavourOS only."; exit 1; }
 
 # --- questions first, so the rest runs unattended ------------------------------------
-say "What do you want on top of the desktop?"
-groups=()
-ask "Gaming: Steam, gamemode, gamescope, protontricks"            && groups+=(gaming)
-ask "Vivaldi (browser) + Vesktop (Discord), started at login"     && groups+=(social)
-ask "Files & media: Dolphin, Ark, VLC, mpv, image viewer, yazi"   && groups+=(media)
-ask "Dev tools: VS Code, GitHub CLI, Node (npm/pnpm), Docker"     && groups+=(dev)
+order=(gaming social media dev)
+declare -A title=([gaming]="Gaming" [social]="Browser & chat" [media]="Files & media" [dev]="Dev tools")
+declare -A members=(
+    [gaming]="steam gamemode gamescope protontricks"
+    [social]="vivaldi vesktop"
+    [media]="dolphin ark vlc mpv swayimg yazi"
+    [dev]="vscode github-cli node docker"
+)
+declare -A label=(
+    [steam]="Steam"
+    [gamemode]="gamemode: performance boost while a game runs"
+    [gamescope]="gamescope: game window with upscaling and FPS limit"
+    [protontricks]="protontricks: fixes for Windows games in Steam"
+    [vivaldi]="Vivaldi: web browser, opens at login"
+    [vesktop]="Vesktop: Discord app (screen share works), opens at login"
+    [dolphin]="Dolphin: file manager"
+    [ark]="Ark: open/make zip, rar, 7z archives"
+    [vlc]="VLC: video and music player"
+    [mpv]="mpv: lightweight video player"
+    [swayimg]="swayimg: image viewer"
+    [yazi]="yazi: file manager inside the terminal"
+    [vscode]="VS Code: code editor"
+    [github-cli]="GitHub CLI (gh)"
+    [node]="Node.js tools: npm + pnpm"
+    [docker]="Docker + docker-compose"
+)
+
+while true; do
+    chosen=()
+    say "Pick the apps you want on top of the desktop"
+    for g in "${order[@]}"; do
+        read -ra list <<<"${members[$g]}"
+        names=""
+        for app in "${list[@]}"; do names+="${label[$app]%%:*}, "; done
+        printf '\n\e[1m%s\e[0m: %s\n' "${title[$g]}" "${names%, }"
+        read -rp "$(printf '\e[1;36m  ? \e[0m[Y]es to all / [n]o / [c]hoose each: ')" a
+        case ${a,,} in
+            n*) ;;
+            c*) for app in "${list[@]}"; do ask "  ${label[$app]}" && chosen+=("$app"); done ;;
+            *)  chosen+=("${list[@]}") ;;
+        esac
+    done
+    say "You picked:"
+    if (( ${#chosen[@]} )); then
+        for app in "${chosen[@]}"; do echo "    - ${label[$app]%%:*}"; done
+    else
+        echo "    nothing extra, just the desktop"
+    fi
+    ask "Install this? (n = choose again)" && break
+done
+has() { [[ " ${chosen[*]} " == *" $1 "* ]]; }
 
 # --- packages ------------------------------------------------------------------------
 pkgs=(
@@ -56,20 +101,25 @@ grep -q Intel <<<"$gpu"              && intel=1
 multilib=0
 grep -q '^\[multilib\]' /etc/pacman.conf && multilib=1
 
-for g in "${groups[@]}"; do case $g in
-    gaming)
-        pkgs+=(gamemode gamescope protontricks)
+for app in "${chosen[@]}"; do case $app in
+    steam)
         if (( multilib )); then
-            pkgs+=(steam lib32-gamemode lib32-pipewire)
+            pkgs+=(steam lib32-pipewire)
             (( nvidia )) && pkgs+=(lib32-nvidia-utils)
             (( amd ))    && pkgs+=(lib32-vulkan-radeon)
             (( intel ))  && pkgs+=(lib32-vulkan-intel)
         else
             warn "Steam needs the [multilib] repo: uncomment it in /etc/pacman.conf, then run this again."
         fi ;;
-    social) pkgs+=(vivaldi); aur+=(vesktop-bin) ;;
-    media)  pkgs+=(dolphin ark kio-admin breeze ffmpegthumbs vlc vlc-plugin-ffmpeg mpv swayimg yazi) ;;
-    dev)    pkgs+=(github-cli npm pnpm docker docker-compose); aur+=(visual-studio-code-bin) ;;
+    gamemode)  pkgs+=(gamemode); (( multilib )) && pkgs+=(lib32-gamemode) ;;
+    vesktop)   aur+=(vesktop-bin) ;;
+    dolphin)   pkgs+=(dolphin kio-admin breeze ffmpegthumbs) ;;
+    ark)       pkgs+=(ark breeze) ;;
+    vlc)       pkgs+=(vlc vlc-plugin-ffmpeg) ;;
+    vscode)    aur+=(visual-studio-code-bin) ;;
+    node)      pkgs+=(npm pnpm) ;;
+    docker)    pkgs+=(docker docker-compose) ;;
+    *)         pkgs+=("$app") ;;   # gamescope protontricks vivaldi mpv swayimg yazi github-cli
 esac; done
 
 say "Installing packages (asks for your password)"
@@ -124,7 +174,7 @@ systemctl --user daemon-reload
 systemctl --user enable pipewire.socket pipewire-pulse.socket wireplumber.service
 systemctl --user enable filter-chain.service                                  # bar's equalizer
 systemctl --user enable hypridle.service hyprpolkitagent.service hyprsunset.service
-if [[ " ${groups[*]} " == *" dev "* ]]; then
+if has docker; then
     sudo systemctl enable --now docker
     getent group docker | grep -qw "$USER" || sudo usermod -aG docker "$USER"
 fi

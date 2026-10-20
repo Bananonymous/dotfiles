@@ -15,8 +15,10 @@ Made for a fresh **EndeavourOS** install.
    cd ~/dotfiles && ./install.sh
    ```
 
-   It asks four yes/no questions (gaming, browser + Discord, files & media, dev tools),
-   then installs everything without asking again. Type your password when sudo asks.
+   It shows four app packs (gaming, browser & chat, files & media, dev tools). For each one,
+   answer **Y** (take all), **n** (skip) or **c** (choose app by app). It shows what you picked
+   so you can confirm or start over, then installs everything without asking again.
+   Type your password when sudo asks.
 5. Reboot. Log in on the black screen and Hyprland starts.
 
 NVIDIA, AMD and Intel graphics are found on their own.
